@@ -1,4 +1,4 @@
-import { Box, Grid, GridItem } from "@chakra-ui/react";
+import { Box, Button, Grid, GridItem, Image } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Context/AuthContext";
 import { Navigate } from "react-router-dom";
@@ -12,6 +12,15 @@ export const Dashbord = () => {
   useEffect(() => {
     getDetails();
   }, []);
+
+  const handleDelete = (id) => {
+    console.log(id._id);
+    axios
+      .delete(`https://kapoorkartik.herokuapp.com/kaizenapp/${id._id}`)
+      .then(() => {
+        getDetails();
+      });
+  };
 
   const getDetails = () => {
     axios("https://kapoorkartik.herokuapp.com/kaizenapp").then(({ data }) => {
@@ -30,6 +39,9 @@ export const Dashbord = () => {
         return (
           <Box my={2} key={i}>
             <Grid border="1px solid black" templateColumns="30% 70%" rowGap={1}>
+              <GridItem bg="#EFEFEF">S No</GridItem>
+              <GridItem bg="#EFEFEF">0{i + 1}</GridItem>
+
               <GridItem bg="#EFEFEF">Name</GridItem>
               <GridItem bg="#EFEFEF">{e.name}</GridItem>
 
@@ -52,7 +64,12 @@ export const Dashbord = () => {
 
               <GridItem bg="#EFEFEF">Image</GridItem>
               <GridItem bg="#EFEFEF">
-                <img src={e.image} alt="before image" />
+                <Image
+                  my={2}
+                  boxSize="200px"
+                  src={e.image}
+                  alt="before image"
+                />
               </GridItem>
 
               <GridItem bg="#EFEFEF">Result</GridItem>
@@ -63,6 +80,20 @@ export const Dashbord = () => {
 
               <GridItem bg="#EFEFEF">Problem</GridItem>
               <GridItem bg="#EFEFEF">{e.present_problem}</GridItem>
+
+              <GridItem bg="#EFEFEF" colSpan={2} my={1}>
+                <Button
+                  size="md"
+                  height="30px"
+                  width="120px"
+                  border="1px"
+                  bg="red"
+                  ml="30%"
+                  onClick={() => handleDelete(e)}
+                >
+                  Delete
+                </Button>
+              </GridItem>
             </Grid>
           </Box>
         );
