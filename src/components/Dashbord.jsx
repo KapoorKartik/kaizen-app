@@ -1,17 +1,4 @@
-import {
-  Box,
-  Center,
-  Flex,
-  Grid,
-  GridItem,
-  Heading,
-  Table,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Tr,
-} from "@chakra-ui/react";
+import { Box, Grid, GridItem } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../Context/AuthContext";
 import { Navigate } from "react-router-dom";
