@@ -88,7 +88,7 @@ export const Login = () => {
             mt="20px"
             ml="45%"
             isIndeterminate
-            color="green.300"
+            color="#0077b6"
           />
         ) : (
           <Button
