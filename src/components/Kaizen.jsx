@@ -9,6 +9,7 @@ import {
   Alert,
   AlertIcon,
   Text,
+  CircularProgress,
 } from "@chakra-ui/react";
 import { useState, useRef } from "react";
 import { Sucess } from "./Sucess";
@@ -36,10 +37,12 @@ export const Kaizen = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  const [sucess, setSucess] = useState(false);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("handle");
-    console.log("form:", form);
+    // console.log("handle");
+    // console.log("form:", form);
     if (form.image === "") {
       return setErr(true);
     }
@@ -48,9 +51,7 @@ export const Kaizen = () => {
   const handleChange = (e) => {
     // console.log("e:", e);
     const { name, value, type } = e.target;
-    if (name === "image") {
-      setErr(false);
-    }
+
     // console.log("******************", value);
     if (type === "file") {
       const fd = new FormData();
@@ -60,21 +61,10 @@ export const Kaizen = () => {
       axios
         .post("https://api.cloudinary.com/v1_1/kartikcloud/image/upload", fd)
         .then(({ data }) => {
-          console.log("imageurl", data.secure_url);
+          setErr(false);
+          // console.log("imageurl", data.secure_url);
           setForm({ ...form, [name]: data.secure_url });
         });
-
-      /*  const reader = new FileReader();
-      reader.readAsDataURL(fileRef.current.files[0]);
-      reader.onload = () => {
-        if (reader.readyState == 2) {
-          /// console.log("rrr", reader.result);
-          setForm({
-            ...form,
-            [name]: reader.result,
-          });
-        }
-      }; */
     } else {
       setForm({
         ...form,
@@ -82,7 +72,8 @@ export const Kaizen = () => {
       });
     }
   };
-
+  // not used only for reference purpose i write this fxn here
+  /*
   const getUrl = () => {
     const fd = new FormData();
     fd.append("file", fileRef.current.files[0]);
@@ -94,9 +85,9 @@ export const Kaizen = () => {
         console.log("imageurl", data.secure_url);
       });
   };
+  */
 
   const setData = () => {
-    //  console.log("JSON:", JSON.stringify(form));
     setIsLoading(true);
     fetch("https://kapoorkartik.herokuapp.com/kaizenapp", {
       method: "POST",
@@ -105,9 +96,11 @@ export const Kaizen = () => {
         "content-type": "application/json",
       },
     }).then(() => {
+      setIsLoading(false);
+      setSucess(true);
       setTimeout(() => {
         // this is the time for circular loading
-        setIsLoading(false);
+        setSucess(false);
       }, 2000);
       setForm({
         name: "",
@@ -125,22 +118,10 @@ export const Kaizen = () => {
     });
   };
 
-  // const handleImage = () => {
-  //   const reader = new FileReader();
-  //   reader.readAsDataURL(fileRef.current.files[0]);
-  //   reader.onload = () => {
-  //     if (reader.readyState == 2) {
-  //       // console.log("rrr", reader.result);
-
-  //       return reader.result;
-  //     }
-  //   };
-  // };
-
   return (
     <>
       <Box m="auto" w="100%">
-        {isLoading ? (
+        {sucess ? (
           // changed loading to sucess alert 'pending'
           //<CircularProgress isIndeterminate color="green.300" />
           <Sucess />
@@ -308,9 +289,18 @@ export const Kaizen = () => {
                   <option value="No">No</option>
                 </Select>
               </FormControl>
-              <Button mt={4} color="white" bg="#0077b6" type="submit">
-                Submit
-              </Button>
+              {isLoading === true ? (
+                <CircularProgress
+                  mt="20px"
+                  ml="45%"
+                  isIndeterminate
+                  color="#0077b6"
+                />
+              ) : (
+                <Button mt={4} color="white" bg="#0077b6" type="submit">
+                  Submit
+                </Button>
+              )}
             </form>
           </Box>
         )}
