@@ -78,7 +78,7 @@ export const Login = () => {
             isRequired
             type="password"
             focusBorderColor="lime"
-            placeholder="secret@123"
+            placeholder="Password"
             name="password"
             onChange={handleChange}
           />

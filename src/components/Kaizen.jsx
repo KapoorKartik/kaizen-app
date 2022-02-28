@@ -179,7 +179,7 @@ export const Kaizen = () => {
                 <FormLabel mt="10px">Suggestion for Department</FormLabel>
                 <Select
                   onChange={handleChange}
-                  placeholder="Select suggested department"
+                  placeholder="Select department"
                   mt="10px"
                   name="suggested_department"
                   value={form.suggested_department}
