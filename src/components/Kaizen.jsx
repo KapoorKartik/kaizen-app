@@ -39,6 +39,8 @@ export const Kaizen = () => {
 
   const [sucess, setSucess] = useState(false);
 
+  const [validEmail, setValidEmail] = useState();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log("handle");
@@ -46,11 +48,26 @@ export const Kaizen = () => {
     if (form.image === "") {
       return setErr(true);
     }
+    if (validEmail === false) {
+      return;
+    }
     setData();
   };
+
+  const validateEmail = (value) => {
+    const regex =
+      /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    setValidEmail(regex.test(value));
+  };
+
   const handleChange = (e) => {
     // console.log("e:", e);
     const { name, value, type } = e.target;
+
+    if (type === "email") {
+      // console.log("v", value);
+      validateEmail(value);
+    }
 
     // console.log("******************", value);
     if (type === "file") {
@@ -128,7 +145,7 @@ export const Kaizen = () => {
         ) : (
           <Box m="auto" w="95%" p={4}>
             {err === true ? (
-              <Alert status="error" position="sticky" top="65px" zIndex={2}>
+              <Alert status="error" position="sticky" top="62px" zIndex={2}>
                 <AlertIcon />
                 Please upload the image
               </Alert>
@@ -154,8 +171,16 @@ export const Kaizen = () => {
                   name="email_id"
                   onChange={handleChange}
                   value={form.email_id}
+                  type="email"
                 />
               </FormControl>
+              {validEmail === false ? (
+                <Alert status="error" position="sticky" top="62px" zIndex={2}>
+                  <AlertIcon />
+                  Email is invalid
+                </Alert>
+              ) : null}
+
               <FormControl isRequired>
                 <FormLabel mt="10px">Select Your Depatment </FormLabel>
                 <Select

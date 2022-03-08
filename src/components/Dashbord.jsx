@@ -140,12 +140,8 @@ export const Dashbord = () => {
                 ) : (
                   <>
                     <Button
-                      size="md"
-                      height="30px"
-                      width="120px"
-                      border="1px"
-                      bg="red"
-                      ml="30%"
+                      colorScheme="red"
+                      ml="40%"
                       onClick={() => setIsOpen(true)}
                     >
                       Delete
