@@ -84,7 +84,6 @@ generated distribution version of the project.
 5.  Push to the branch: `git push origin my-new-feature`
 6.  Submit a pull request :sunglasses:
 
-## Screenshots
 
 
 ## Built With
